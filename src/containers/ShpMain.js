@@ -4,13 +4,16 @@ import {actStoreCloudFilterItems} from '../actions';
 import shpMainPg from '../components/ShpMain';
 import {ACTTYPE_STORECLOUD_SELECTROW} from '../actions';
 
+var Documents = null;
+
 function mapStateToProps(state)
 {
+    Documents = state.spreadSheets.Documents;
     return{
-        CloudStore: state.cloudStore
+            Documents: state.spreadSheets.Documents
         }
 }
-
+ 
 function mapDispatchToProps(dispatch)
 {
     return {
@@ -18,6 +21,14 @@ function mapDispatchToProps(dispatch)
             ()=>{
                 return columnList;
             },
+        rowGetter:
+            (rowIndex) => {
+                return Documents.Shopping.rows[rowIndex]; 
+            },
+        rowsCount:
+            () => {                
+                return Documents.Shopping.rows.length;
+            },    
         requestRows: 
             (bRefresh) =>{
                 dispatch(actGetSpreadSheetRows("Shopping"));
@@ -37,16 +48,31 @@ function mapDispatchToProps(dispatch)
 
 const columnList = [
     {
-        key:'Container',
-        name:'Container',
-        resizable: true,
-        width:100
+        key:'Id',
+        name:'#',
+        width:30
     },
     {
-        key:'Item',
-        name:'Item',
+        key:'Name',
+        name:'Наименование',
         resizable: true,
+        width:200
     },
+    {
+        key:'Amount',
+        name:'Кол.',
+        width:50
+    },
+    {
+        key:'Unit',
+        name:'Eд',
+        width:50
+    },
+    {
+        key:'Selected',
+        name:'Отм',
+        width:50
+    }
 ];
 
 

@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import SplitPane from 'react-split-pane'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
 import history from '../history';
 
 import { Link } from 'react-router-dom'
 import StorageCloudContainer from '../containers/StorageCloudMain';
 import ShpMain from '../containers/ShpMain';
-import StorageCloudAddRow from '../containers/StorageCloudAddRow';
 import StorageCloudEditRow from '../containers/StorageCloudEditRow';
 import {Button} from 'react-bootstrap';
 import {GasolineIcon}  from './icons';
@@ -34,10 +33,6 @@ const routes = [
   { path:routePath.storeСloud_editrow,
     main:() => <StorageCloudEditRow/> 
   },
-  {
-    path:routePath.storeСloud_addrow,
-    main:()=><StorageCloudAddRow/> 
-  },
 ]
 
 const routes_sb = [
@@ -52,16 +47,7 @@ const routes_sb = [
   { path:routePath.storeСloud_editrow,
     main:()=><h2>Edit table row</h2> 
   },
-  {
-    path:routePath.storeСloud_addrow,
-    main:()=><StorageCloudAddRow/> 
-  },
 ]
-
-
-const styles = {
-  background: ""
-};
 
 const styles1 = {
   background: '#000',

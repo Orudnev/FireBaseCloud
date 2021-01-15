@@ -13,7 +13,7 @@ export function actStoreCloudGetAllItems(bRefresh)
     console.log("actStoreCloudGetAllItems()")
     if(!bRefresh)
     {
-        if(localStorage[LSTORAGE_KEY] && localStorage[LSTORAGE_KEY]!="undefined")
+        if(localStorage[LSTORAGE_KEY] && localStorage[LSTORAGE_KEY]!=="undefined")
         {
             var _payload = JSON.parse(localStorage[LSTORAGE_KEY]);
             return  {
@@ -56,7 +56,7 @@ export function actStoreCloudFilterItems(fltCriteria)
              b1 = row.Item.toLowerCase().includes(fltCriteria.itemFilter.toLowerCase());
             }
             if (fltCriteria.containerFilter){ 
-                b2 = row.Container == fltCriteria.containerFilter;
+                b2 = row.Container === fltCriteria.containerFilter;
             }
             return b1 && b2;     
         });

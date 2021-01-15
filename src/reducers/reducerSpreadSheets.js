@@ -1,10 +1,11 @@
 import * as actions from '../actions';
 
 const defaultState = {
-    Items:[],
-    Containers:[],
-    LastAddedRow:{},
-    SelectedRowIndex:-1
+    Documents:{
+        Shopping:{
+            rows:[]
+        }
+    },
 }  
 
 function reducer(state = defaultState, action) {
@@ -13,8 +14,10 @@ function reducer(state = defaultState, action) {
             var result = {...state,LoadingDocType:action.payload};
             return result;
         case actions.ACTTYPE__GETSPREADSHEETITEMS:
-            console.log("reducer");
-            console.log(action.payload);        
+            var docs = {...state.Documents}
+            docs[action.payload.docId].rows = action.payload.rows; 
+            result = {...state, Documents:docs};
+            return result;     
         default:
             return state;    
     }

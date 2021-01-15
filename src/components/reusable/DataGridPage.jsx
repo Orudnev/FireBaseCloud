@@ -1,10 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 
-const space10 = {
-   width: "10px"
-};
-
 const pageWidth = {
     width:"90vw"
 }

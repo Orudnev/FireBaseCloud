@@ -47,7 +47,7 @@ class StorageCloudEditRow extends React.Component{
     }
 
     renderDropDown(){
-        if(this.props.CloudStore.Items.length==0) {
+        if(this.props.CloudStore.Items.length===0) {
             this.goBack();
             return;
         }        

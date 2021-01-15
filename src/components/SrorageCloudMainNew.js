@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 import { Link } from 'react-router-dom';
-import {Container, Table} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {InputGroup} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
@@ -11,7 +10,6 @@ import {PencilIcon}  from './icons';
 import {RefreshIcon}  from './icons';
 import DropdownList from './DropdownList';
 import {routePath} from './Root'
-import history from '../history';
 
 const space10 = {
    width: "10px"
@@ -58,7 +56,7 @@ class StorageMainPage extends React.Component{
             this.scrollToRow(this.props.CloudStore.LastAddedRow.Id); 
             this.setState({hasScrolledToLastRow:true});
         } 
-        if(this.state.lastSelectedRowIndex != this.props.CloudStore.SelectedRowIndex){
+        if(this.state.lastSelectedRowIndex !== this.props.CloudStore.SelectedRowIndex){
             this.scrollToRow(this.props.CloudStore.SelectedRowIndex);
         }
     }

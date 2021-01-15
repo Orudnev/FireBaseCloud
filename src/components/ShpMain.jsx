@@ -1,17 +1,11 @@
 import React from 'react';
 import DataGridPage from './reusable/DataGridPage';
 import { Link } from 'react-router-dom';
-import {Container, Table} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
-import {InputGroup} from 'react-bootstrap';
-import {FormControl} from 'react-bootstrap';
-import {CancelIcon}  from './icons';
 import {PlusIcon}  from './icons';
 import {PencilIcon}  from './icons';
 import {RefreshIcon}  from './icons';
-import DropdownList from './DropdownList';
 import {routePath} from './Root'
-import history from '../history';
 
 const space10 = {
    width: "10px"
@@ -73,9 +67,8 @@ class ShpMainPage extends React.Component{
     }
 
     render() {
-        if(this.props.CloudStore.Items != null && this.props.CloudStore.Items.length>0)
+        if(this.props.rowsCount(this.props)>0)
         {
-            console.log(this.state.selectedCell);
             return(
                     <div style = {pageWidth}>
                         <div className="btn-group" role="group" >
@@ -97,8 +90,8 @@ class ShpMainPage extends React.Component{
                         </div>
                         <DataGridPage 
                             columns={this.props.columns()}
-                            rowGetter={i=>this.props.CloudStore.Items[i]} 
-                            rowsCount={this.props.CloudStore.Items.length}
+                            rowGetter={i=>this.props.rowGetter(i)} 
+                            rowsCount={this.props.rowsCount()}
                         />
                     </div>
                 );

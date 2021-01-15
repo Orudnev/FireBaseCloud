@@ -15,7 +15,7 @@ class DropDownList extends React.Component{
             selItem = this.props.selectedItemStr;
         }
         this.state = {
-            selectedIndex:props.showAllElementsItem == 1?0:-1,
+            selectedIndex:props.showAllElementsItem === 1?0:-1,
             selectedItemStr: props.showAllElementsItem ?allItemsCaption:selItem
         } 
     }
@@ -35,12 +35,12 @@ class DropDownList extends React.Component{
 
     onItemSelected(index)
     {
-        if(this.state.selectedIndex == index){
+        if(this.state.selectedIndex === index){
             return;
         }
         
         if(this.props.showAllElementsItem){
-            if(index==0){
+            if(index===0){
                 this.setState({selectedIndex:0,selectedItemStr:allItemsCaption});
                 this.props.onItemSelected(null);
                 return;       
