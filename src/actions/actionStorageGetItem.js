@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {STORECLOUD_ENDPOINTURL as url} from '../appResources'
+import {HOMECLOUD_ENDPOINTURL as url} from '../appResources'
 import {LSTORAGE_KEY} from '../appResources';
 
 export const ACTTYPE_STORECLOUD_REQUEST_GETALLITEMS = 'ACTTYPE_STORECLOUD_REQUEST_GETALLITEMS';
@@ -27,7 +27,7 @@ export function actStoreCloudGetAllItems(bRefresh)
         dispatch({
             type: ACTTYPE_STORECLOUD_REQUEST_GETALLITEMS
         });
-        var paramObj = {method:"getAllRows"};
+        var paramObj = {docId:"Storage",method:"getAllRows"};
         var pars = {params:paramObj}
         return axios.get(url,pars)
         .then(response=>{
