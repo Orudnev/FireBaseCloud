@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
+import DaraForm from './DataForm'
 
 const pageWidth = {
     width:"90vw"
 }
-
 
 class DataGridPage extends React.Component{
     constructor(props){
@@ -15,7 +15,7 @@ class DataGridPage extends React.Component{
                 dataGrid:null,
                 newRowId:-1,
                 hasScrolledToLastRow:false,
-                lastSelectedRowIndex:0
+                lastSelectedRowIndex:0,
         } 
     }
 
@@ -29,22 +29,31 @@ class DataGridPage extends React.Component{
         this.setState({lastSelectedRowIndex:sel.rowIdx});
     }
 
-    render() {
-        return(
-                <div style = {pageWidth}>
-                    <ReactDataGrid 
-                        columns={this.props.columns}
-                        rowGetter={(i)=>this.props.rowGetter(i)} 
-                        rowsCount={this.props.rowsCount}
-                        minHeight={500}
-                        ref={(g)=>this.dataGrid=g}
-                        onCellSelected={(e)=>this.onCellSelected(e)}
-                    />
-                </div>
-            );
+    renderView()
+    {
+        if(!this.props.isFormViewVisible()){
+            return(
+            <div style = {pageWidth}>
+                <ReactDataGrid 
+                    columns={this.props.columns}
+                    rowGetter={(i)=>this.props.rowGetter(i)} 
+                    rowsCount={this.props.rowsCount}
+                    minHeight={500}
+                    ref={(g)=>this.dataGrid=g}
+                    onCellSelected={(e)=>this.onCellSelected(e)}
+                />
+            </div>);
+        } else {
+            return(
+            <div style = {pageWidth}>
+                <DaraForm />
+            </div>);
+        }
     }
 
-
+    render() {
+        return(this.renderView());
+    }
 }
 
 

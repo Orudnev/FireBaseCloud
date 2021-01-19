@@ -24,7 +24,8 @@ class ShpMainPage extends React.Component{
                 dataGrid:null,
                 newRowId:-1,
                 hasScrolledToLastRow:false,
-                lastSelectedRowIndex:0
+                lastSelectedRowIndex:0,
+                isFormViewVisible:false
         } 
         this.props.requestRows(true);
     }
@@ -66,23 +67,25 @@ class ShpMainPage extends React.Component{
         this.props.selectRow(sel.rowIdx);
     }
 
+    handleButtonEditClick(){
+        this.setState({isFormViewVisible: true});
+    }
+
     render() {
         if(this.props.rowsCount(this.props)>0)
         {
             return(
                     <div style = {pageWidth}>
                         <div className="btn-group" role="group" >
-                            <Link to={routePath.storeСloud_addrow}>
+                            <Link to={routePath.storeСloud_addrow} >
                                 <Button type='button' >
                                     <PlusIcon />
                                 </Button>
                             </Link>
                             <span style={space10}></span>
-                            <Link to={routePath.storeСloud_editrow}>
-                                <Button type='button' >
-                                    <PencilIcon />
-                                </Button>
-                            </Link>
+                            <Button type='button' onClick={()=>this.handleButtonEditClick()} >
+                                <PencilIcon />
+                            </Button>
                             <span style={space10}></span>
                             <Button type='button' onClick={(e) => this.handleRefreshButtonClick(e)}>
                                 <RefreshIcon />
@@ -92,6 +95,7 @@ class ShpMainPage extends React.Component{
                             columns={this.props.columns()}
                             rowGetter={i=>this.props.rowGetter(i)} 
                             rowsCount={this.props.rowsCount()}
+                            isFormViewVisible = {()=>this.state.isFormViewVisible}
                         />
                     </div>
                 );
