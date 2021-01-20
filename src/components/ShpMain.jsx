@@ -56,7 +56,6 @@ class ShpMainPage extends React.Component{
     }
 
     handleContainerFilterChange(container){
-
         this.setState({containerFilter:container});
         var fltCriteria = {itemFilter:this.state.itemFilter,containerFilter:container}; 
         this.props.filterRows(fltCriteria);        
@@ -104,11 +103,6 @@ class ShpMainPage extends React.Component{
             return (<h2>Loading...</h2>);
         }
     }
-
-
 }
-
-
-
 
 export default ShpMainPage;

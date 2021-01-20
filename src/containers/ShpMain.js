@@ -50,7 +50,11 @@ const columnList = [
     {
         key:'Id',
         name:'#',
-        width:30
+        width:30,
+        form:{
+            hiddenLbl:true,
+            disabled:true
+        }
     },
     {
         key:'Name',
@@ -71,7 +75,10 @@ const columnList = [
     {
         key:'Selected',
         name:'Отм',
-        width:50
+        width:50,
+        form:{
+            hidden:true
+        }
     }
 ];
 
