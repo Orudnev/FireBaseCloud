@@ -4,18 +4,19 @@ import DaraForm from './DataForm'
 
 const pageWidth = {
     width:"90vw"
-}
+};
+const DataGridPageMode=
+{
+    ModeTable:1,
+    ModeForm:2
+};
 
 class DataGridPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-                containerFilter:null,
-                itemFilter:"",
                 dataGrid:null,
-                newRowId:-1,
-                hasScrolledToLastRow:false,
-                lastSelectedRowIndex:0,
+                lastSelectedRowIndex:0
         } 
     }
 
@@ -55,8 +56,5 @@ class DataGridPage extends React.Component{
         return(this.renderView());
     }
 }
-
-
-
 
 export default DataGridPage;

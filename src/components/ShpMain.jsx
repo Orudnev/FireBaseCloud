@@ -5,6 +5,8 @@ import {Button} from 'react-bootstrap';
 import {PlusIcon}  from './icons';
 import {PencilIcon}  from './icons';
 import {RefreshIcon}  from './icons';
+import {ExitIcon}  from './icons';
+import {ApplyIcon}  from './icons';
 import {routePath} from './Root'
 
 const space10 = {
@@ -26,7 +28,7 @@ class ShpMainPage extends React.Component{
                 hasScrolledToLastRow:false,
                 lastSelectedRowIndex:0,
                 isFormViewVisible:false
-        } 
+        };
         this.props.requestRows(true);
     }
 
@@ -48,19 +50,6 @@ class ShpMainPage extends React.Component{
         this.props.filterRows(fltCriteria);
     }
 
-    handleClearFilterButtonClick()
-    {
-        var fltCriteria = "";
-        this.setState({filterCriteria:fltCriteria});
-        this.props.filterRows(fltCriteria);    
-    }
-
-    handleContainerFilterChange(container){
-        this.setState({containerFilter:container});
-        var fltCriteria = {itemFilter:this.state.itemFilter,containerFilter:container}; 
-        this.props.filterRows(fltCriteria);        
-    }
-
     onCellSelected(sel){
         this.setState({lastSelectedRowIndex:sel.rowIdx});
         this.props.selectRow(sel.rowIdx);
@@ -70,26 +59,68 @@ class ShpMainPage extends React.Component{
         this.setState({isFormViewVisible: true});
     }
 
+    handleCloseFormMode(){
+        this.setState({isFormViewVisible: false});
+    }
+    
+    handleButtonApplyClick(){
+        this.handleCloseFormMode();
+    }    
+    
+
+    renderTableModeButtons(){
+        return (
+        <div className="btn-group" role="group" >
+            <Link to={routePath.storeСloud_addrow} >
+                <Button type='button' >
+                    <PlusIcon />
+                </Button>
+            </Link>
+            <span style={space10}></span>
+            <Button type='button' onClick={()=>this.handleButtonEditClick()} >
+                <PencilIcon />
+            </Button>
+            <span style={space10}></span>
+            <Button type='button' onClick={(e) => this.handleRefreshButtonClick(e)}>
+                <RefreshIcon />
+            </Button>
+        </div>
+        );
+    }
+
+    renderFormModeButtons(){
+        return (
+        <div className="row">
+            <div className="col">
+                <Button type='button' onClick={(e) => this.handleCloseFormMode()} variant="light" className="border">
+                    <ExitIcon />
+                </Button>
+            </div>
+            <div className="col text-right">
+                <Button type='button' onClick={(e) => this.handleButtonApplyClick()} variant="success">
+                    <ApplyIcon />
+                </Button>
+            </div>
+        </div>
+        );
+    }
+
+    renderButtons(){
+        if(this.state.isFormViewVisible){
+            return this.renderFormModeButtons();
+        }
+        else{
+            return this.renderTableModeButtons();
+        }
+    }
+
+
     render() {
         if(this.props.rowsCount(this.props)>0)
         {
             return(
                     <div style = {pageWidth}>
-                        <div className="btn-group" role="group" >
-                            <Link to={routePath.storeСloud_addrow} >
-                                <Button type='button' >
-                                    <PlusIcon />
-                                </Button>
-                            </Link>
-                            <span style={space10}></span>
-                            <Button type='button' onClick={()=>this.handleButtonEditClick()} >
-                                <PencilIcon />
-                            </Button>
-                            <span style={space10}></span>
-                            <Button type='button' onClick={(e) => this.handleRefreshButtonClick(e)}>
-                                <RefreshIcon />
-                            </Button>
-                        </div>
+                        {this.renderButtons()}
                         <DataGridPage 
                             columns={this.props.columns()}
                             rowGetter={i=>this.props.rowGetter(i)} 

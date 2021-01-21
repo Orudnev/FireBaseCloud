@@ -65,12 +65,18 @@ const columnList = [
     {
         key:'Amount',
         name:'Кол.',
-        width:50
+        width:50,
+        form:{
+            rowContainer:"begin"
+        }
     },
     {
         key:'Unit',
         name:'Eд',
-        width:50
+        width:50,
+        form:{
+            rowContainer:"end"
+        }
     },
     {
         key:'Selected',
