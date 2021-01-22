@@ -67,15 +67,19 @@ const columnList = [
         name:'Кол.',
         width:50,
         form:{
-            rowContainer:"begin"
+            rowContainer:"begin",
+            class:"col-2"
         }
     },
     {
         key:'Unit',
-        name:'Eд',
+        name:'Eд.',
         width:50,
+        type:'dropdown',
+        dropdownItems:['шт.','г.','кг.','л.'],
         form:{
-            rowContainer:"end"
+            rowContainer:"end",
+            class:"col-2"
         }
     },
     {

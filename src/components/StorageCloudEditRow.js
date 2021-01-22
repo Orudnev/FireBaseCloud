@@ -4,7 +4,7 @@ import {FormControl} from 'react-bootstrap';
 import {ApplyIcon}  from './icons';
 import {PlusIcon}  from './icons';
 import {ExitIcon}  from './icons';
-import DropdownList from './DropdownList';
+import DropdownList from './reusable/DropdownList.jsx';
 import {CancelIcon}  from './icons';
 import history from '../history';
 
