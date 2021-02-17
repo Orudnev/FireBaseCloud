@@ -35,7 +35,6 @@ const formPadding = {
 class DataForm extends React.Component{
     constructor(props){
         super(props);  
-        console.log('DataForm');     
         this.state = {
             rowValue:{...this.props.rowValues},
         }  

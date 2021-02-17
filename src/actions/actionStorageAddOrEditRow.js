@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {STORECLOUD_ENDPOINTURL as url} from '../appResources';
+import {HOMECLOUD_ENDPOINTURL as url} from '../appResources'
 
-export const ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE = 'ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE';
+export const ACTTYPE_UPDATEROWONSERVER_WAITRESPONSE = 'ACTTYPE_UPDATEROWONSERVER_WAITRESPONSE';
 export const ACTTYPE_STORECLOUD_ADDROW = 'ACTTYPE_STORECLOUD_ADDROW';
 export const ACTTYPE_STORECLOUD_UPDATEROW = 'ACTTYPE_STORECLOUD_UPDATEROW';
 export const ACTTYPE_STORECLOUD_SELECTROW = 'ACTTYPE_STORECLOUD_SELECTROW';
@@ -16,7 +16,7 @@ export function actStoreCloudAddRow(valuesArray){
     var pars = {params:paramObj}
     return dispatch=>{
         dispatch({
-            type: ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE
+            //type: ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE
         });
         return axios.get(url,pars)
         .then(response=>{
@@ -31,23 +31,23 @@ export function actStoreCloudAddRow(valuesArray){
 }
 
 export function actStoreCloudUpdateRow(docId,newRowValue,updateOnServer){
-    console.log('actStoreCloudUpdateRow');
     if(!updateOnServer){
         return dispatch=>dispatch({
             type:ACTTYPE_STORECLOUD_UPDATEROW,
             payload:{docId,row:newRowValue}});
     }
-    /*
     var paramObj = {method:"updateRowFromFldList"};
-    for(var i=0;i<valuesArray.length;i++){
+    var i = 0;
+    for(var prop in newRowValue){
         var fldName = "f"+i;
-        paramObj[fldName] = valuesArray[i];
+        paramObj[fldName] = newRowValue[prop];
+        i++;
     }
+    console.log(url);
     var pars = {params:paramObj}
-    console.log('actStoreCloudUpdateRow');
     return dispatch=>{
         dispatch({
-            type: ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE
+            type: ACTTYPE_UPDATEROWONSERVER_WAITRESPONSE
         });
         return axios.get(url,pars)
         .then(response=>{
@@ -55,11 +55,10 @@ export function actStoreCloudUpdateRow(docId,newRowValue,updateOnServer){
             })
         .then((payload)=>{  
                 dispatch({
-                type:ACTTYPE_STORECLOUD_UPDATEROW,
-                payload});
+                    type:ACTTYPE_STORECLOUD_UPDATEROW,
+                    payload:{docId,row:newRowValue}});
             });
     } 
-    */  
 }
 
 //{"method":"addRow","parameters":{"FieldValues":["конт","элм"]}}

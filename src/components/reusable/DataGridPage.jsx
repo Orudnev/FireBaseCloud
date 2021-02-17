@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-import DaraForm from './DataForm'
+import DataForm from './DataForm'
 
 const pageWidth = {
     width:"90vw"
@@ -27,7 +27,9 @@ class DataGridPage extends React.Component{
     }
 
     onCellSelected(sel){
+        console.log(111);
         this.setState({lastSelectedRowIndex:sel.rowIdx});
+        this.props.onRowSelected(sel.rowIdx);
     }
 
     renderView()
@@ -47,7 +49,7 @@ class DataGridPage extends React.Component{
         } else {
             return(
             <div style = {pageWidth}>
-                <DaraForm 
+                <DataForm 
                     columns={this.props.columns} 
                     onChangeFieldValue = {this.props.onChangeFieldValue}
                     rowValues={this.props.rowGetter(this.state.lastSelectedRowIndex)} />

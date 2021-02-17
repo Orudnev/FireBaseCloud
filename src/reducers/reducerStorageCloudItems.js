@@ -15,9 +15,6 @@ function reducer(state = defaultState, action) {
                 Containers:[]
             } 
             return result;
-        case actions.ACTTYPE_STORECLOUD_ADDEDITROW_WAITRESPONSE:
-            result = {...state,LastAddedRow:action.payload};
-            return result;
         case actions.ACTTYPE_STORECLOUD_ADDROW:
             result = {...state,LastAddedRow:action.payload};
             result.Items.push(result.LastAddedRow);

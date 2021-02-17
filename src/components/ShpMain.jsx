@@ -64,6 +64,7 @@ class ShpMainPage extends React.Component{
     }
     
     handleButtonApplyClick(){
+        this.props.saveRowChanges();
         this.handleCloseFormMode();
     }    
     
@@ -126,6 +127,7 @@ class ShpMainPage extends React.Component{
                             rowGetter={i=>this.props.rowGetter(i)} 
                             rowsCount={this.props.rowsCount()}
                             isFormViewVisible = {()=>this.state.isFormViewVisible}
+                            onRowSelected = {(rowIndex)=>this.props.selectRow(rowIndex)}
                             onChangeFieldValue = {this.props.changeFieldValue}
                         />
                     </div>

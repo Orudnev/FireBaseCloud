@@ -14,7 +14,12 @@ function mapStateToProps(state)
             Documents: state.spreadSheets.Documents
         }
 }
-const docId = "Shopping";
+const containerProps= {
+    docId : "Shopping",
+    lastSelectedRowIndex: 0,
+    lastRowValue:{},
+    hasChanges: false
+}
 
  
 function mapDispatchToProps(dispatch)
@@ -41,17 +46,25 @@ function mapDispatchToProps(dispatch)
                 dispatch(actStoreCloudFilterItems(fltCriteria));
             },
         selectRow:
-            (payload) =>{
-                dispatch({
-                    type:ACTTYPE_STORECLOUD_SELECTROW,
-                    payload});
+            (rowIndex) =>{
+                containerProps.hasChanges = false;
+                containerProps.lastSelectedRowIndex = rowIndex;
             },
         changeFieldValue:(newRowValue,updateOnServer)=>{
-            dispatch(actStoreCloudUpdateRow(docId,newRowValue,updateOnServer));
-            console.log(newRowValue);                
+                containerProps.hasChanges = true;
+                containerProps.lastRowValue = newRowValue;
+                dispatch(actStoreCloudUpdateRow(containerProps.docId,newRowValue,updateOnServer));
+                console.log(newRowValue)
+            },
+        saveRowChanges:()=>
+            {
+                if(containerProps.hasChanges){
+                    dispatch(actStoreCloudUpdateRow(containerProps.docId,containerProps.lastRowValue,true));
+                }
+            }    
         }                     
-    };
 }
+
 
 const columnList = [
     {
