@@ -18,6 +18,14 @@ function reducer(state = defaultState, action) {
             docs[action.payload.docId].rows = action.payload.rows; 
             result = {...state, Documents:docs};
             return result;     
+        case actions.ACTTYPE_STORECLOUD_UPDATEROW:
+            var newDocs = {...state.Documents};
+            var rowIndex = newDocs[action.payload.docId].rows.findIndex(itm=>itm.Id === action.payload.row.Id);
+            if(rowIndex !== -1){
+                newDocs[action.payload.docId].rows[rowIndex] = action.payload.row;
+            }
+            result = {...state,Documents:newDocs};
+            return result;    
         default:
             return state;    
     }

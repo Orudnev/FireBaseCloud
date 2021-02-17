@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {actGetSpreadSheetRows} from '../actions';
 import {actStoreCloudFilterItems} from '../actions';
+import {actStoreCloudUpdateRow} from '../actions';
 import shpMainPg from '../components/ShpMain';
 import {ACTTYPE_STORECLOUD_SELECTROW} from '../actions';
 
@@ -13,6 +14,8 @@ function mapStateToProps(state)
             Documents: state.spreadSheets.Documents
         }
 }
+const docId = "Shopping";
+
  
 function mapDispatchToProps(dispatch)
 {
@@ -42,7 +45,11 @@ function mapDispatchToProps(dispatch)
                 dispatch({
                     type:ACTTYPE_STORECLOUD_SELECTROW,
                     payload});
-            }                 
+            },
+        changeFieldValue:(newRowValue,updateOnServer)=>{
+            dispatch(actStoreCloudUpdateRow(docId,newRowValue,updateOnServer));
+            console.log(newRowValue);                
+        }                     
     };
 }
 

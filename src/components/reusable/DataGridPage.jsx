@@ -47,7 +47,10 @@ class DataGridPage extends React.Component{
         } else {
             return(
             <div style = {pageWidth}>
-                <DaraForm columns={this.props.columns} rowValues={this.props.rowGetter(this.state.lastSelectedRowIndex)} />
+                <DaraForm 
+                    columns={this.props.columns} 
+                    onChangeFieldValue = {this.props.onChangeFieldValue}
+                    rowValues={this.props.rowGetter(this.state.lastSelectedRowIndex)} />
             </div>);
         }
     }

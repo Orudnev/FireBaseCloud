@@ -51,10 +51,10 @@ class DataForm extends React.Component{
     }
 
     hanleFieldValueChange(col,value){
-        console.log('hanleFieldValueChange');
         var newValue = {...this.state.rowValue};
         newValue[col.key] = value;
         this.setState({rowValue: newValue});
+        this.props.onChangeFieldValue(newValue,false);
     }
 
     renderLabel(col){

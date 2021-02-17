@@ -7,7 +7,6 @@ export const ACTTYPE_STORECLOUD_UPDATEROW = 'ACTTYPE_STORECLOUD_UPDATEROW';
 export const ACTTYPE_STORECLOUD_SELECTROW = 'ACTTYPE_STORECLOUD_SELECTROW';
 export const ACTTYPE_STORECLOUD_EDITROW = 'ACTTYPE_STORECLOUD_EDITROW';
 
-
 export function actStoreCloudAddRow(valuesArray){
     var paramObj = {method:"addRowFromFldList"};
     for(var i=0;i<valuesArray.length;i++){
@@ -31,7 +30,14 @@ export function actStoreCloudAddRow(valuesArray){
     }   
 }
 
-export function actStoreCloudUpdateRow(valuesArray){
+export function actStoreCloudUpdateRow(docId,newRowValue,updateOnServer){
+    console.log('actStoreCloudUpdateRow');
+    if(!updateOnServer){
+        return dispatch=>dispatch({
+            type:ACTTYPE_STORECLOUD_UPDATEROW,
+            payload:{docId,row:newRowValue}});
+    }
+    /*
     var paramObj = {method:"updateRowFromFldList"};
     for(var i=0;i<valuesArray.length;i++){
         var fldName = "f"+i;
@@ -52,7 +58,8 @@ export function actStoreCloudUpdateRow(valuesArray){
                 type:ACTTYPE_STORECLOUD_UPDATEROW,
                 payload});
             });
-    }   
+    } 
+    */  
 }
 
 //{"method":"addRow","parameters":{"FieldValues":["конт","элм"]}}

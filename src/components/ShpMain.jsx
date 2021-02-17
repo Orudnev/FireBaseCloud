@@ -126,6 +126,7 @@ class ShpMainPage extends React.Component{
                             rowGetter={i=>this.props.rowGetter(i)} 
                             rowsCount={this.props.rowsCount()}
                             isFormViewVisible = {()=>this.state.isFormViewVisible}
+                            onChangeFieldValue = {this.props.changeFieldValue}
                         />
                     </div>
                 );
