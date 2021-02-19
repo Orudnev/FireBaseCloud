@@ -27,7 +27,6 @@ class DataGridPage extends React.Component{
     }
 
     onCellSelected(sel){
-        console.log(111);
         this.setState({lastSelectedRowIndex:sel.rowIdx});
         this.props.onRowSelected(sel.rowIdx);
     }
@@ -44,6 +43,7 @@ class DataGridPage extends React.Component{
                     minHeight={500}
                     ref={(g)=>this.dataGrid=g}
                     onCellSelected={(e)=>this.onCellSelected(e)}
+                    getCellActions = {this.props.getCellActions}
                 />
             </div>);
         } else {

@@ -31,12 +31,13 @@ export function actStoreCloudAddRow(valuesArray){
 }
 
 export function actStoreCloudUpdateRow(docId,newRowValue,updateOnServer){
+    console.log("111");
     if(!updateOnServer){
         return dispatch=>dispatch({
             type:ACTTYPE_STORECLOUD_UPDATEROW,
             payload:{docId,row:newRowValue}});
     }
-    var paramObj = {method:"updateRowFromFldList"};
+    var paramObj = {method:"updateRowFromFldList",docId:docId};
     var i = 0;
     for(var prop in newRowValue){
         var fldName = "f"+i;

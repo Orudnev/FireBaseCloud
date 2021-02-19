@@ -24,6 +24,7 @@ function reducer(state = defaultState, action) {
             if(rowIndex !== -1){
                 newDocs[action.payload.docId].rows[rowIndex] = action.payload.row;
             }
+            console.log("222");
             result = {...state,Documents:newDocs};
             return result;    
         default:

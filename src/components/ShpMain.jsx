@@ -129,6 +129,7 @@ class ShpMainPage extends React.Component{
                             isFormViewVisible = {()=>this.state.isFormViewVisible}
                             onRowSelected = {(rowIndex)=>this.props.selectRow(rowIndex)}
                             onChangeFieldValue = {this.props.changeFieldValue}
+                            getCellActions = {this.props.getCellActions}
                         />
                     </div>
                 );

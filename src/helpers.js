@@ -9,3 +9,4 @@ export function getObjProp(objInstance,propChainStr){
     }
     return result;
 }
+

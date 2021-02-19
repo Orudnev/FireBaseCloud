@@ -3,32 +3,61 @@ import {actGetSpreadSheetRows} from '../actions';
 import {actStoreCloudFilterItems} from '../actions';
 import {actStoreCloudUpdateRow} from '../actions';
 import shpMainPg from '../components/ShpMain';
-import {ACTTYPE_STORECLOUD_SELECTROW} from '../actions';
+import {ApplyIcon}  from '../components/icons';
 
 var Documents = null;
 
-function mapStateToProps(state)
+function mapStateToProps(store)
 {
-    Documents = state.spreadSheets.Documents;
+    Documents = store.spreadSheets.Documents;
     return{
-            Documents: state.spreadSheets.Documents
+            Documents: store.spreadSheets.Documents
         }
 }
 const containerProps= {
     docId : "Shopping",
+    dispatchAction: null,
     lastSelectedRowIndex: 0,
-    lastRowValue:{},
-    hasChanges: false
+    lastRowValue:{}, //Последнее значение строки после редактирования в DataForm
+    hasChanges: false,
+    selectRowPendingAction:null,
+    getRowByIndex:(index)=>{
+        var rows = Documents[containerProps.docId].rows;
+        var result = rows.find((itm)=>itm.Id==index);
+        return result;
+    },
+    changeRowSelectionMark:()=>{
+        var r = containerProps.getRowByIndex(containerProps.lastSelectedRowIndex);
+        var row = {...r};
+        if(row){
+            row.Selected = (row.Selected?"":"x");
+            containerProps.dispatchAction(actStoreCloudUpdateRow(containerProps.docId,row,false));
+        }
+    }
 }
 
  
 function mapDispatchToProps(dispatch)
 {
+    containerProps.dispatchAction = dispatch;
     return {
         columns:
             ()=>{
                 return columnList;
             },
+        getCellActions(column,row){
+            var actionSelect = ()=>{
+                    containerProps.selectRowPendingAction = ()=>{containerProps.changeRowSelectionMark()};
+            };
+            if(column.key=="Selected")
+            {
+                if(!row.Selected)
+                    return [{icon: ApplyIcon("gray"),callback:actionSelect}];    
+                else
+                    return [{icon: ApplyIcon("green"),callback:actionSelect}];    
+            }
+            return null;
+        },    
         rowGetter:
             (rowIndex) => {
                 return Documents.Shopping.rows[rowIndex]; 
@@ -39,7 +68,7 @@ function mapDispatchToProps(dispatch)
             },    
         requestRows: 
             (bRefresh) =>{
-                dispatch(actGetSpreadSheetRows("Shopping"));
+                dispatch(actGetSpreadSheetRows(containerProps.docId));
             },
         filterRows:
             (fltCriteria) =>{
@@ -49,6 +78,11 @@ function mapDispatchToProps(dispatch)
             (rowIndex) =>{
                 containerProps.hasChanges = false;
                 containerProps.lastSelectedRowIndex = rowIndex;
+                if(containerProps.selectRowPendingAction)
+                {
+                    containerProps.selectRowPendingAction();
+                    containerProps.selectRowPendingAction = null;
+                }
             },
         changeFieldValue:(newRowValue,updateOnServer)=>{
                 containerProps.hasChanges = true;
@@ -111,6 +145,13 @@ const columnList = [
         }
     }
 ];
+
+const cellActions = [
+        {
+            icon: ApplyIcon("gray")
+        }
+    ];    
+
 
 
 const cont = connect(mapStateToProps,mapDispatchToProps)(shpMainPg);
