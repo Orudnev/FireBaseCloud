@@ -114,7 +114,7 @@ const columnList = [
         key:'Name',
         name:'Наименование',
         resizable: true,
-        width:200
+        width:140
     },
     {
         key:'Amount',
