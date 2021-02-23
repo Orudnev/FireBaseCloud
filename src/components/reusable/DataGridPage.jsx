@@ -3,7 +3,7 @@ import ReactDataGrid from 'react-data-grid';
 import DataForm from './DataForm'
 
 const pageWidth = {
-    width:"90vw"
+    width:"95vw"
 };
 const DataGridPageMode=
 {

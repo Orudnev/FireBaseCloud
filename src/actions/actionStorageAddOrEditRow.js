@@ -31,7 +31,6 @@ export function actStoreCloudAddRow(valuesArray){
 }
 
 export function actStoreCloudUpdateRow(docId,newRowValue,updateOnServer){
-    console.log("111");
     if(!updateOnServer){
         return dispatch=>dispatch({
             type:ACTTYPE_STORECLOUD_UPDATEROW,

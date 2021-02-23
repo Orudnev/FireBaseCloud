@@ -68,7 +68,7 @@ class ShpMainPage extends React.Component{
         this.handleCloseFormMode();
     }    
     
-
+ 
     renderTableModeButtons(){
         return (
         <div className="btn-group" role="group" >
@@ -117,7 +117,8 @@ class ShpMainPage extends React.Component{
 
 
     render() {
-        if(this.props.rowsCount(this.props)>0)
+        console.log("111");
+        if(this.props.rowsCount()>0)
         {
             return(
                     <div style = {pageWidth}>
