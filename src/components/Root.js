@@ -8,23 +8,29 @@ import history from '../history';
 import { Link } from 'react-router-dom'
 import StorageCloudContainer from '../containers/StorageCloudMain';
 import ShpMain from '../containers/ShpMain';
+import ShpFuel from '../containers/ShpFuel';
 import StorageCloudEditRow from '../containers/StorageCloudEditRow';
 import {Button} from 'react-bootstrap';
 import {GasolineIcon}  from './icons';
 
 export const routePath = {
   root:'/',
+  fuel:'/fuel',
   root_sb:'/sb',
   storeCloud:'/storeCloud',
   storeCloud_sb:'/sb/storeCloud',
   storeСloud_editrow:'/storeCloud/editrow',
-  storeСloud_addrow:'/storeCloud/addrow',
+  storeСloud_addrow:'/storeCloud/addrow'
 }
 
 const routes = [
   { path: routePath.root,
     exact: true,    
     main: () => <ShpMain/>
+  },
+  { path: routePath.fuel,
+    exact:true,
+    main: () => <ShpFuel/>
   },
   { path: routePath.storeCloud,
     exact:true,
