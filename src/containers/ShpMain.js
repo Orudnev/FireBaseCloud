@@ -14,8 +14,18 @@ function mapStateToProps(store)
             Documents: store.spreadSheets.Documents
         }
 }
+
+function useGetDocId(){
+    var path = window.location.pathname;
+    if(path === "/s"){
+        return "ShoppingSokuluk"
+    } else {
+        return "Shopping";
+    }
+}
+
 const containerProps= {
-    docId : "Shopping",
+    docId : useGetDocId(),
     dispatchAction: null,
     lastSelectedRowIndex: 0,
     lastRowValue:{}, //Последнее значение строки после редактирования в DataForm

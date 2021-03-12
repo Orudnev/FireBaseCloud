@@ -15,6 +15,7 @@ import {GasolineIcon}  from './icons';
 
 export const routePath = {
   root:'/',
+  shpSokuluk:'/s',
   fuel:'/fuel',
   root_sb:'/sb',
   storeCloud:'/storeCloud',
@@ -28,6 +29,11 @@ const routes = [
     exact: true,    
     main: () => <ShpMain/>
   },
+  { path: routePath.shpSokuluk,
+    exact: true,    
+    main: () => <ShpMain/>
+  },
+
   { path: routePath.fuel,
     exact:true,
     main: () => <ShpFuel/>
