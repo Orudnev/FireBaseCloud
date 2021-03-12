@@ -23,7 +23,7 @@ const containerProps= {
     selectRowPendingAction:null,
     getRowByIndex:(index)=>{
         var rows = Documents[containerProps.docId].rows;
-        var result = rows.find((itm)=>itm.Id==index);
+        var result = rows.find((itm)=>itm.Id===index);
         return result;
     },
     changeRowSelectionMark:()=>{
@@ -50,7 +50,7 @@ function mapDispatchToProps(dispatch)
             var actionSelect = ()=>{
                     containerProps.selectRowPendingAction = ()=>{containerProps.changeRowSelectionMark()};
             };
-            if(column.key=="Selected")
+            if(column.key==="Selected")
             {
                 if(!row.Selected)
                     return [{icon: ApplyIcon("gray"),callback:actionSelect}];    
@@ -61,12 +61,8 @@ function mapDispatchToProps(dispatch)
         },    
         rowGetter:
             (rowIndex) => {
-                if(rowIndex>-1){
-                    return Documents.Shopping.rows[rowIndex];
-                } else {
-                    var newRow = {...Documents.Shopping.rows[0]};
-                    return Documents.Shopping.rows[rowIndex];
-                } 
+                if (rowIndex == -1) return {};
+                return Documents[containerProps.docId].rows[rowIndex]; 
             },
         rowsCount:
             () => {                
@@ -90,16 +86,16 @@ function mapDispatchToProps(dispatch)
                 containerProps.hasChanges = true;
                 containerProps.lastRowValue = newRowValue;
                 dispatch(actStoreCloudUpdateRow(containerProps.docId,newRowValue,updateOnServer));
-                console.log(newRowValue)
             },
         saveRowChanges:(isAddRowMode)=>
             {
+                console.log('222');
                 if(containerProps.hasChanges){
                         var docId = containerProps.docId;
                         var newRow = {};
                         for(var i=0; i<columnList.length;i++){
                             var field = columnList[i];
-                            if(field.key=="Id" && isAddRowMode) continue; //Id не нужно для новой записи, он будет сгенерирован сервером
+                            if(field.key==="Id" && isAddRowMode) continue; //Id не нужно для новой записи, он будет сгенерирован сервером
                             if(containerProps.lastRowValue.hasOwnProperty(field.key)) {
                                 newRow[field.key] = containerProps.lastRowValue[field.key];
                                 continue;
@@ -122,7 +118,7 @@ const columnList = [
     {
         key:'Id',
         name:'#',
-        width:30,
+        width:35,
         form:{
             hiddenLbl:true,
             disabled:true
@@ -163,13 +159,6 @@ const columnList = [
         }
     }
 ];
-
-const cellActions = [
-        {
-            icon: ApplyIcon("gray")
-        }
-    ];    
-
 
 
 const cont = connect(mapStateToProps,mapDispatchToProps)(shpMainPg);

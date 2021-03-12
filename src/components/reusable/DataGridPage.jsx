@@ -5,11 +5,6 @@ import DataForm from './DataForm'
 const pageWidth = {
     width:"90vw"
 };
-const DataGridPageMode=
-{
-    ModeTable:1,
-    ModeForm:2
-};
 
 class DataGridPage extends React.Component{
     constructor(props){
@@ -19,7 +14,7 @@ class DataGridPage extends React.Component{
                 lastSelectedRowIndex:0
         } 
     }
-
+ 
     componentDidMount(){
     }
 

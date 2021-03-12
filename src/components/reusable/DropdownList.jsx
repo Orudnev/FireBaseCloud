@@ -2,8 +2,6 @@ import React from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const allItemsCaption = "Все элементы";
-
 class DropDownList extends React.Component{
      
     constructor(props){

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form} from 'react-bootstrap';
-import {InputGroup} from 'react-bootstrap';
 import {getObjProp} from '../../helpers';
 import DropdownList from './DropdownList.jsx';
 
@@ -84,14 +83,14 @@ class DataForm extends React.Component{
     renderSimpleField(col,isRow){
         if(isRow){
             return(
-                <Form.Group hidden={this.isAttr(col,'hidden')} style={formGrPadding} className={col.form.class} >
+                <Form.Group key={col.key} hidden={this.isAttr(col,'hidden')} style={formGrPadding} className={col.form.class} >
                     {this.renderLabel(col)}
                     {this.renderSimpleFieldInput(col)}
                 </Form.Group> 
             );
         } else {
             return(
-                <Form.Group hidden={this.isAttr(col,'hidden')} >
+                <Form.Group key={col.key} hidden={this.isAttr(col,'hidden')} >
                     {this.renderLabel(col)}
                     {this.renderSimpleFieldInput(col)}
                 </Form.Group> 
@@ -121,14 +120,14 @@ class DataForm extends React.Component{
            if(getObjProp(col,"form.rowContainer") && getObjProp(col,"form.rowContainer")==="end"){
                 fieldsInRowStarted = false;
                 result.push(
-                    <Form.Row>
+                    <Form.Row key={col.key}>
                         {fieldsInRow}
                     </Form.Row>
                 );
                 fieldsInRow = [];
                 continue; 
            }
-           if(col.type===undefined && fieldsInRowStarted == false){
+           if(col.type===undefined && fieldsInRowStarted === false){
                result.push(this.renderSimpleField(col));               
            } 
         }

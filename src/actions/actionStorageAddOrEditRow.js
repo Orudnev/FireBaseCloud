@@ -10,7 +10,6 @@ export const ACTTYPE_STORECLOUD_EDITROW = 'ACTTYPE_STORECLOUD_EDITROW';
 
 export function actStoreCloudAddRow(docId,newRowValue,dispatchEx){
     var paramObj = {method:"addRowFromFldList",docId:docId};
-
     var i = 0;
     for(var prop in newRowValue){
         var fldName = "f"+i;

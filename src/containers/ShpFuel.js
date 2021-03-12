@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 import {actGetSpreadSheetRows} from '../actions';
-import {actStoreCloudFilterItems} from '../actions';
+import {actStoreCloudAddRow} from '../actions';
 import {actStoreCloudUpdateRow} from '../actions';
 import shpMainPg from '../components/ShpMain';
 import {ApplyIcon}  from '../components/icons';
-
+ 
 var Documents = null;
 
 function mapStateToProps(store)
@@ -23,7 +23,7 @@ const containerProps= {
     selectRowPendingAction:null,
     getRowByIndex:(index)=>{
         var rows = Documents[containerProps.docId].rows;
-        var result = rows.find((itm)=>itm.Id==index);
+        var result = rows.find((itm)=>itm.Id===index);
         return result;
     },
     changeRowSelectionMark:()=>{
@@ -49,7 +49,7 @@ function mapDispatchToProps(dispatch)
             var actionSelect = ()=>{
                     containerProps.selectRowPendingAction = ()=>{containerProps.changeRowSelectionMark()};
             };
-            if(column.key=="Selected")
+            if(column.key==="Selected")
             {
                 if(!row.Selected)
                     return [{icon: ApplyIcon("gray"),callback:actionSelect}];    
@@ -60,7 +60,22 @@ function mapDispatchToProps(dispatch)
         },    
         rowGetter:
             (rowIndex) => {
-                return Documents[containerProps.docId].rows[rowIndex]; 
+                var rowCount = Documents[containerProps.docId].rows.length;
+                var reverseIndex = rowCount-rowIndex-1;
+                if (rowIndex == -1) {
+                    containerProps.hasChanges = true;
+                    var lastSelectedRow = Documents[containerProps.docId].rows[containerProps.lastSelectedRowIndex];
+                    var newRowValue = {
+                        Date:new Date().toJSON().substring(0,10),
+                        TankSensor:lastSelectedRow.TankSensor,
+                        Odometer:lastSelectedRow.Odometer,
+                        Price:lastSelectedRow.Price,
+                        Sum:lastSelectedRow.Sum
+                    }
+                    containerProps.lastRowValue = newRowValue;
+                    return newRowValue;
+                }
+                return Documents[containerProps.docId].rows[reverseIndex]; 
             },
         rowsCount:
             () => {                
@@ -69,10 +84,6 @@ function mapDispatchToProps(dispatch)
         requestRows: 
             (bRefresh) =>{
                 dispatch(actGetSpreadSheetRows(containerProps.docId));
-            },
-        filterRows:
-            (fltCriteria) =>{
-                dispatch(actStoreCloudFilterItems(fltCriteria));
             },
         selectRow:
             (rowIndex) =>{
@@ -88,12 +99,28 @@ function mapDispatchToProps(dispatch)
                 containerProps.hasChanges = true;
                 containerProps.lastRowValue = newRowValue;
                 dispatch(actStoreCloudUpdateRow(containerProps.docId,newRowValue,updateOnServer));
-                console.log(newRowValue)
             },
-        saveRowChanges:()=>
+            saveRowChanges:(isAddRowMode)=>
             {
+                console.log('1111');
                 if(containerProps.hasChanges){
-                    dispatch(actStoreCloudUpdateRow(containerProps.docId,containerProps.lastRowValue,true));
+                        var docId = containerProps.docId;
+                        var newRow = {};
+                        for(var i=0; i<columnList.length;i++){
+                            var field = columnList[i];
+                            if(field.key==="Id" && isAddRowMode) continue; //Id не нужно для новой записи, он будет сгенерирован сервером
+                            if(containerProps.lastRowValue.hasOwnProperty(field.key)) {
+                                newRow[field.key] = containerProps.lastRowValue[field.key];
+                                continue;
+                            }
+                            //добавляем отсутствующие поля
+                            newRow[field.key] = "";
+                        }
+                        if(isAddRowMode){
+                            dispatch(actStoreCloudAddRow(docId,newRow,dispatch));
+                        } else {
+                            dispatch(actStoreCloudUpdateRow(docId,newRow,true));
+                        }
                 }
             }    
         }                     
@@ -156,13 +183,6 @@ const columnList = [
     }
 
 ];
-
-const cellActions = [
-        {
-            icon: ApplyIcon("gray")
-        }
-    ];    
-
 
 
 const cont = connect(mapStateToProps,mapDispatchToProps)(shpMainPg);
