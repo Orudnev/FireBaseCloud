@@ -140,7 +140,6 @@ class DataForm extends React.Component{
     }
 
     render() {
-        console.log(this.state.rowValue)
         return(
             <div>
                 {this.renderFields()}

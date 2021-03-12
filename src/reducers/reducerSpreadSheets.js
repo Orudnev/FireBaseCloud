@@ -4,9 +4,6 @@ const defaultState = {
     Documents:{
         Shopping:{
             rows:[]
-        },
-        Fuel:{
-            rows:[]
         }
     },
 }  

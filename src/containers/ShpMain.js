@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {actGetSpreadSheetRows} from '../actions';
-import {actStoreCloudFilterItems} from '../actions';
+import {actStoreCloudAddRow} from '../actions';
 import {actStoreCloudUpdateRow} from '../actions';
 import shpMainPg from '../components/ShpMain';
 import {ApplyIcon}  from '../components/icons';
@@ -32,6 +32,7 @@ const containerProps= {
         if(row){
             row.Selected = (row.Selected?"":"x");
             containerProps.dispatchAction(actStoreCloudUpdateRow(containerProps.docId,row,false));
+            containerProps.dispatchAction(actStoreCloudUpdateRow(containerProps.docId,row,true));
         }
     }
 }
@@ -60,7 +61,12 @@ function mapDispatchToProps(dispatch)
         },    
         rowGetter:
             (rowIndex) => {
-                return Documents.Shopping.rows[rowIndex]; 
+                if(rowIndex>-1){
+                    return Documents.Shopping.rows[rowIndex];
+                } else {
+                    var newRow = {...Documents.Shopping.rows[0]};
+                    return Documents.Shopping.rows[rowIndex];
+                } 
             },
         rowsCount:
             () => {                
@@ -69,10 +75,6 @@ function mapDispatchToProps(dispatch)
         requestRows: 
             (bRefresh) =>{
                 dispatch(actGetSpreadSheetRows(containerProps.docId));
-            },
-        filterRows:
-            (fltCriteria) =>{
-                dispatch(actStoreCloudFilterItems(fltCriteria));
             },
         selectRow:
             (rowIndex) =>{
@@ -90,10 +92,26 @@ function mapDispatchToProps(dispatch)
                 dispatch(actStoreCloudUpdateRow(containerProps.docId,newRowValue,updateOnServer));
                 console.log(newRowValue)
             },
-        saveRowChanges:()=>
+        saveRowChanges:(isAddRowMode)=>
             {
                 if(containerProps.hasChanges){
-                    dispatch(actStoreCloudUpdateRow(containerProps.docId,containerProps.lastRowValue,true));
+                        var docId = containerProps.docId;
+                        var newRow = {};
+                        for(var i=0; i<columnList.length;i++){
+                            var field = columnList[i];
+                            if(field.key=="Id" && isAddRowMode) continue; //Id не нужно для новой записи, он будет сгенерирован сервером
+                            if(containerProps.lastRowValue.hasOwnProperty(field.key)) {
+                                newRow[field.key] = containerProps.lastRowValue[field.key];
+                                continue;
+                            }
+                            //добавляем отсутствующие поля
+                            newRow[field.key] = "";
+                        }
+                        if(isAddRowMode){
+                            dispatch(actStoreCloudAddRow(docId,newRow,dispatch));
+                        } else {
+                            dispatch(actStoreCloudUpdateRow(docId,newRow,true));
+                        }
                 }
             }    
         }                     

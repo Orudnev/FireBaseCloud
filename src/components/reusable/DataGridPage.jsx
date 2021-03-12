@@ -3,7 +3,7 @@ import ReactDataGrid from 'react-data-grid';
 import DataForm from './DataForm'
 
 const pageWidth = {
-    width:"95vw"
+    width:"90vw"
 };
 const DataGridPageMode=
 {
@@ -31,28 +31,38 @@ class DataGridPage extends React.Component{
         this.props.onRowSelected(sel.rowIdx);
     }
 
+    getRowValuesForDataForm(){
+        if(this.props.isAddrowMode){
+            return this.props.containerProps.rowGetter(-1);
+        } else {
+            return this.props.containerProps.rowGetter(this.state.lastSelectedRowIndex);
+        }
+    }
+
+
     renderView()
     {
         if(!this.props.isFormViewVisible()){
             return(
             <div style = {pageWidth}>
                 <ReactDataGrid 
-                    columns={this.props.columns}
-                    rowGetter={(i)=>this.props.rowGetter(i)} 
-                    rowsCount={this.props.rowsCount}
+                    columns={this.props.containerProps.columns()}
+                    rowGetter={(i)=>this.props.containerProps.rowGetter(i)} 
+                    rowsCount={this.props.containerProps.rowsCount()}
                     minHeight={500}
                     ref={(g)=>this.dataGrid=g}
                     onCellSelected={(e)=>this.onCellSelected(e)}
-                    getCellActions = {this.props.getCellActions}
+                    getCellActions = {this.props.containerProps.getCellActions}
                 />
             </div>);
         } else {
             return(
             <div style = {pageWidth}>
                 <DataForm 
-                    columns={this.props.columns} 
-                    onChangeFieldValue = {this.props.onChangeFieldValue}
-                    rowValues={this.props.rowGetter(this.state.lastSelectedRowIndex)} />
+                    columns={this.props.containerProps.columns()} 
+                    onChangeFieldValue = {this.props.containerProps.changeFieldValue}
+                    rowValues={this.getRowValuesForDataForm()}
+                     />
             </div>);
         }
     }
@@ -60,6 +70,8 @@ class DataGridPage extends React.Component{
     render() {
         return(this.renderView());
     }
+
+
 }
 
 export default DataGridPage;

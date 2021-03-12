@@ -27,7 +27,8 @@ class ShpMainPage extends React.Component{
                 newRowId:-1,
                 hasScrolledToLastRow:false,
                 lastSelectedRowIndex:0,
-                isFormViewVisible:false
+                isFormViewVisible:false,
+                isAddrowMode:false
         };
         this.props.requestRows(true);
     }
@@ -55,8 +56,12 @@ class ShpMainPage extends React.Component{
         this.props.selectRow(sel.rowIdx);
     }
 
+    handleButtonAddClick(){
+        this.setState({isFormViewVisible: true,isAddrowMode: true});
+    }
+
     handleButtonEditClick(){
-        this.setState({isFormViewVisible: true});
+        this.setState({isFormViewVisible: true,isAddrowMode: false});
     }
 
     handleCloseFormMode(){
@@ -64,19 +69,17 @@ class ShpMainPage extends React.Component{
     }
     
     handleButtonApplyClick(){
-        this.props.saveRowChanges();
+        this.props.saveRowChanges(this.state.isAddrowMode);        
         this.handleCloseFormMode();
     }    
     
- 
+
     renderTableModeButtons(){
         return (
         <div className="btn-group" role="group" >
-            <Link to={routePath.storeСloud_addrow} >
-                <Button type='button' >
-                    <PlusIcon />
-                </Button>
-            </Link>
+            <Button type='button' onClick={()=>this.handleButtonAddClick()} >
+                <PlusIcon />
+            </Button>
             <span style={space10}></span>
             <Button type='button' onClick={()=>this.handleButtonEditClick()} >
                 <PencilIcon />
@@ -117,20 +120,16 @@ class ShpMainPage extends React.Component{
 
 
     render() {
-        console.log("111");
-        if(this.props.rowsCount()>0)
+        if(this.props.rowsCount(this.props)>0)
         {
             return(
                     <div style = {pageWidth}>
                         {this.renderButtons()}
-                        <DataGridPage 
-                            columns={this.props.columns()}
-                            rowGetter={i=>this.props.rowGetter(i)} 
-                            rowsCount={this.props.rowsCount()}
+                        <DataGridPage
+                            containerProps = {this.props} 
                             isFormViewVisible = {()=>this.state.isFormViewVisible}
                             onRowSelected = {(rowIndex)=>this.props.selectRow(rowIndex)}
-                            onChangeFieldValue = {this.props.changeFieldValue}
-                            getCellActions = {this.props.getCellActions}
+                            isAddrowMode = {this.state.isAddrowMode}
                         />
                     </div>
                 );
