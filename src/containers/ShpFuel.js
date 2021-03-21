@@ -63,8 +63,9 @@ function mapDispatchToProps(dispatch)
                 var rowCount = Documents[containerProps.docId].rows.length;
                 var reverseIndex = rowCount-rowIndex-1;
                 if (rowIndex == -1) {
+                    reverseIndex = rowCount-1;
                     containerProps.hasChanges = true;
-                    var lastSelectedRow = Documents[containerProps.docId].rows[containerProps.lastSelectedRowIndex];
+                    var lastSelectedRow = Documents[containerProps.docId].rows[reverseIndex];
                     var newRowValue = {
                         Date:new Date().toJSON().substring(0,10),
                         TankSensor:lastSelectedRow.TankSensor,
@@ -143,7 +144,7 @@ const columnList = [
         width:100,
         form:{
             rowContainer:"begin",
-            class:"col-4"
+            class:"col-5"
         }
     },
     {
@@ -151,7 +152,7 @@ const columnList = [
         name:'Куб',
         width:38,
         form:{
-            class:"col-3"
+            class:"col-2"
         }
     },
     {
@@ -159,7 +160,7 @@ const columnList = [
         name:'Км',
         width:70,
         form:{
-            class:"col-3",
+            class:"col-4",
             rowContainer:"end"
         }
     },
