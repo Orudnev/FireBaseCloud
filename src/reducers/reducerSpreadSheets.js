@@ -5,6 +5,9 @@ const defaultState = {
         Shopping:{
             rows:[]
         },
+        ShoppingSokuluk:{
+            rows:[]
+        },
         Fuel:{
             rows:[]
         }

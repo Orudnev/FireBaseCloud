@@ -68,7 +68,19 @@ function mapDispatchToProps(dispatch)
                     return [{icon: ApplyIcon("green"),callback:actionSelect}];    
             }
             return null;
-        },    
+        },
+        menuItems:
+           [
+              {
+                  id:"Reset",
+                  caption:"Очистить список",
+              }
+           ],
+        onMenuItemSelected(cmdId){
+            if(cmdId==='Reset'){
+                console.log("Reset action");
+            }
+        },       
         rowGetter:
             (rowIndex) => {
                 if (rowIndex == -1) return {};
@@ -76,7 +88,7 @@ function mapDispatchToProps(dispatch)
             },
         rowsCount:
             () => {                
-                return Documents.Shopping.rows.length;
+                return Documents[containerProps.docId].rows.length;
             },    
         requestRows: 
             (bRefresh) =>{

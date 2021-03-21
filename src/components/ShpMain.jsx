@@ -6,10 +6,16 @@ import {PencilIcon}  from './icons';
 import {RefreshIcon}  from './icons';
 import {ExitIcon}  from './icons';
 import {ApplyIcon}  from './icons';
-
+import {MenuIcon}  from './icons';
+import Dropdown from 'react-bootstrap/Dropdown'
 const space10 = {
    width: "10px"
 };
+
+const spaceLarge = {
+    width: "125px"
+ };
+ 
 
 const pageWidth = {
     width:"90vw"
@@ -86,7 +92,26 @@ class ShpMainPage extends React.Component{
             <Button type='button' onClick={(e) => this.handleRefreshButtonClick(e)}>
                 <RefreshIcon />
             </Button>
+            <span style={spaceLarge}></span>
+            {this.renderMenu()}
         </div>
+        );
+    }
+
+    renderMenu(){
+        var menuItems = [];
+        this.props.menuItems.forEach((item)=>{
+            menuItems.push(<Dropdown.Item onClick={(e)=>this.props.onMenuItemSelected(item.id)}>{item.caption}</Dropdown.Item>);
+        });   
+        return(    
+        <Dropdown>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                <MenuIcon />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+                {menuItems}       
+            </Dropdown.Menu>
+        </Dropdown>
         );
     }
 
